@@ -19,10 +19,16 @@ class Home(Frame):
         self.image = PhotoImage(file="tomato.png")
 
         self.title_label = Label(
-            self, text="Pomodoro", background=YELLOW, font=(FONT_NAME, 27, "bold")
+            self,
+            text="Pomodoro",
+            background=YELLOW,
+            foreground=RED,
+            font=(FONT_NAME, 30, "bold"),
         )
         self.image_label = Label(self, image=self.image, bg=YELLOW)
-        self.timer_label = Label(self, text="00:00", font=(FONT_NAME, 40, "bold"))
+        self.timer_label = Label(
+            self, text="00:00", foreground=RED, font=(FONT_NAME, 40, "bold")
+        )
 
         self.start_button = Button(
             self,
@@ -58,7 +64,6 @@ class Home(Frame):
 
         self.timer_label.place(relx=0.5, rely=0.58, anchor="center")
         self.start_button.pack(pady=10)
-        self.reset_button.pack(pady=10)
 
     def rest_timer(self):
         self.after_cancel(self.timer)
@@ -66,15 +71,28 @@ class Home(Frame):
         self.timer_label.config(text="00:00")
         self.title_label.config(text="Pomodoro")
         self.check_mark.config(text="")
+        self.start_button.pack(pady=10)
+        self.reset_button.pack_forget()
 
         self.reps = 0
 
     def start_timer(self):
+        """
+        Incrementa la variables repeticiones cada vez que se corre
+        la funcion start_timer
+        """
         self.reps += 1
 
+        """
+            Se multiplica por 60 cada valor de las constantes
+            para convertirlos a segundos
+        """
         work_sec = WORK_MIN * 60
         short_break_sec = SHORT_BREAK_MIN * 60
         long_break_sec = LONG_BREAK_MIN * 60
+
+        self.start_button.pack_forget()
+        self.reset_button.pack(pady=10)
 
         if self.reps % 8 == 0:
             self.count_down(long_break_sec)
@@ -101,6 +119,9 @@ class Home(Frame):
             self.start_timer()
 
             marks = ""
+            """
+             TODO: resolved a bug
+            """
             work_session = self.reps // 0
 
             for _ in range(work_session):
