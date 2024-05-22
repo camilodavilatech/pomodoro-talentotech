@@ -1,6 +1,6 @@
-from tkinter import Tk, Frame
+from tkinter import Tk, Frame, Button
 from consts import YELLOW
-from view import Analytics, Home
+from view import Analytics, Home, Settings
 
 
 class Window(Tk):
@@ -9,9 +9,9 @@ class Window(Tk):
 
         self.title("Pomodoro App")
         self.geometry("450x420")
-        self.config(bg=YELLOW)
 
         self.container = Frame(self)
+        self.container.config(bg=YELLOW)
         self.container.pack(fill="both", expand=True)
 
         # views
@@ -19,8 +19,21 @@ class Window(Tk):
 
         self.add_view(Home, "home")
         self.add_view(Analytics, "analytics")
+        self.add_view(Settings, "settings")
 
         self.show_view("home")
+        self.render()
+
+    def render(self):
+        view_settings = Button(
+            self.container,
+            text="settings",
+            background="black",
+            foreground="white",
+            borderwidth=0,
+            command=lambda: self.show_view("settings"),
+        )
+        view_settings.place(x=10, y=10)
 
     def show_view(self, name):
         # ocultar la vista actual
