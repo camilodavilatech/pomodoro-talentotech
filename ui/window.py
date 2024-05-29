@@ -16,6 +16,7 @@ class Window(Tk):
 
         # views
         self.frames = {}
+        self.current_frame = "home"
 
         self.add_view(Home, "home")
         self.add_view(Analytics, "analytics")
@@ -31,11 +32,18 @@ class Window(Tk):
             background="black",
             foreground="white",
             borderwidth=0,
-            command=lambda: self.show_view("settings"),
+            padx=10,
+            pady=10,
+            command=lambda: (
+                self.show_view("settings")
+                if self.current_frame == "home"
+                else self.show_view("home")
+            ),
         )
         view_settings.place(x=10, y=10)
 
     def show_view(self, name):
+        self.current_frame = name
         # ocultar la vista actual
         for frame in self.frames.values():
             frame.pack_forget()

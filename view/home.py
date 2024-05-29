@@ -1,14 +1,6 @@
 from tkinter import Frame, Label, PhotoImage, Button
-from consts import (
-    YELLOW,
-    GREEN,
-    RED,
-    PINK,
-    FONT_NAME,
-    SHORT_BREAK_MIN,
-    WORK_MIN,
-    LONG_BREAK_MIN,
-)
+from utils.settings import get_settings
+from consts import YELLOW, GREEN, RED, PINK, FONT_NAME
 
 
 class Home(Frame):
@@ -29,6 +21,8 @@ class Home(Frame):
         self.timer_label = Label(
             self, text="00:00", foreground=RED, font=(FONT_NAME, 40, "bold")
         )
+
+        self.default_settings = get_settings()
 
         self.start_button = Button(
             self,
@@ -87,9 +81,11 @@ class Home(Frame):
             Se multiplica por 60 cada valor de las constantes
             para convertirlos a segundos
         """
-        work_sec = WORK_MIN * 60
-        short_break_sec = SHORT_BREAK_MIN * 60
-        long_break_sec = LONG_BREAK_MIN * 60
+        self.default_settings = get_settings()
+
+        work_sec = self.default_settings["work"] * 60
+        short_break_sec = self.default_settings["short_break"] * 60
+        long_break_sec = self.default_settings["long_break"] * 60
 
         self.start_button.pack_forget()
         self.reset_button.pack(pady=10)
